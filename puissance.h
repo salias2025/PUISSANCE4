@@ -3,6 +3,6 @@
  void afficherRegles(void);
  int colonneValide(int colonne);
  int demanderColonne(void);
- int changerJoueur(int *joueur);
+ int changerJoueur(int joueur);
  void jouerPrototype(void);
 #endif

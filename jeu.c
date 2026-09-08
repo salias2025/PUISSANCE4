@@ -40,14 +40,15 @@
         scanf("%d",&colonne);
         return colonne;
  };
- int changerJoueur(int *joueur){
-    if (*joueur==1){
-        *joueur=2;
-    }else{
-        *joueur=1;
-    }
+int changerJoueur(int joueur){
+   if (joueur==1){
+       return 2;
+   }else{
+       return 1;
+   }
+};
 
- };
+ 
  void jouerPrototype(void){
     int joueur=1;
     int colonne ;
@@ -62,7 +63,9 @@
             printf("numero invalide ,veuillez entrer un autre numero !!!\n");
         }
     }while (!colonneValide(colonne));
-    changerJoueur(&joueur);
-    printf("cest le role du joueur %d \n" ,joueur);
+    printf("Le joueur %d choisit la colonne %d.\n", joueur, colonne);
+    joueur= changerJoueur(joueur);
+    
+   printf("cest le role du joueur %d \n" ,joueur);
   }
  };
