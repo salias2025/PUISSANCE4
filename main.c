@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "puissance.h"
+#include "puissance4.h"
 
 int main (){
     afficherRegles();
