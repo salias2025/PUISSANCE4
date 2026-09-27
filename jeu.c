@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include<string.h>
 
 #include "puissance4.h"
 
@@ -54,21 +55,31 @@
     }
 
  }
- void jouerTour(int *joueurCourant, int *nombreCoups){
-
-
-        changerJoueur(joueurCourant);
+ void jouerTour(Partie *partie, int *nombreCoups){
+        int colonne ;
+        printf("cest le role du joueur %d \n" ,(*partie).joueurCourant); 
+       
+        colonne=demanderColonne();
+        if (colonneLibre((*partie).grille,colonne)==1){
+            printf("la colonne %d est libre \n",colonne+1);
+        }else if (colonneLibre((*partie).grille,colonne)==-1){
+            printf("la colonne %d est pleine \n",colonne+1);
+        }
+        placerJeton((*partie).grille,colonne);
+        afficherGrille((*partie).grille);
+        
         (*nombreCoups)++;
     }
  void jouerPrototype(void){
+    char nomjoueur1[30];
+    char nomjoueur2[30];
     int joueur=1;
-    int colonne ;
     int nbcoups=0;
     // int res;
-    int grille[NB_LIGNES][NB_COLONNES];
+    Partie *Partie=creerPartie(nomjoueur1,nomjoueur2);
 
-     initialiserGrille(grille);
-     afficherGrille(grille);
+     initialiserGrille((*Partie).grille);
+     afficherGrille((*Partie).grille);
     //  placerJeton(grille, 0, 1); 
     // placerJeton(grille, 0, 2); 
     // placerJeton(grille, 0, 1); 
@@ -85,22 +96,46 @@
     // } else {
     //     printf("-> SUCCES : Le placement a ete accepte alors que la colonne est pleine !\n");
     // }
-  while(nbcoups<6){
-     printf("cest le role du joueur %d \n" ,joueur); 
-       
-        colonne=demanderColonne();
-        if (colonneLibre(grille,colonne)==1){
-            printf("la colonne %d est libre \n",colonne+1);
-        }else if (colonneLibre(grille,colonne)==-1){
-            printf("la colonne %d est pleine \n",colonne+1);
-        }
+  while(!grillePleine((*Partie).grille) && !joueurAGagne((*Partie).grille,joueur)){
+     
         // for (int i=0;i<NB_LIGNES;i++){
         //     grille[i][colonne]=1;
         // }
         // afficherGrille(grille);
-         jouerTour(&joueur, &nbcoups);
+         jouerTour((*Partie).grille, &nbcoups);
+         if (joueurAGagne((*Partie).grille,joueur)){
+           printf("le joueur %d a gagne \n",joueur);
+           break;
+          }
+         changerJoueur(&joueur);
+          printf("le nombre de coups est %d \n",nbcoups);
     
   }
-  printf("le nombre de coups est %d \n",nbcoups);
+  if (grillePleine((*Partie).grille)){
+    printf("aucun des joueurs n'a gagne(egalite) \n");
+
+  }
+  
+ 
  }
+Partie *creerPartie(char nomJoueur1[], char nomJoueur2[]){
+    Partie *p=malloc(sizeof(Partie));
+    if (p==NULL){
+        printf("l'allocation memoire a echoue!");
+        return 1;
+    }
+    strcpy((*p).joueurs[0].nom,nomJoueur1);
+     strcpy((*p).joueurs[1].nom,nomJoueur2);
+     (*p).joueurs[0].jeton=1;
+     (*p).joueurs[1].jeton=2;
+     (*p).joueurCourant=0;
+     initialiserGrille((*p).grille);
+     return p;
+
+};
+void detruirePartie(Partie *partie){
+    free(partie);
+    partie=NULL;
+
+};
 

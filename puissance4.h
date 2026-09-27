@@ -5,20 +5,41 @@
 #define NB_LIGNES 6
 #define NB_COLONNES 7
 #define VIDE 0
+#define TAILLE_NOM 30
+
+typedef struct {
+char nom[TAILLE_NOM];
+int jeton;
+} Joueur;
+typedef struct {
+int grille[NB_LIGNES][NB_COLONNES];
+Joueur joueurs[2];
+int joueurCourant;
+int nombreJetons;
+} Partie;
+
 
  void afficherRegles(void);
  int colonneValide(int colonne);
  int demanderColonne(void);
  int changerJoueur(int *joueur);
  void jouerPrototype(void);
- void jouerTour(int *joueurCourant, int *nombreCoups);
-void initialiserGrille(int grille[][NB_COLONNES]);
-void afficherGrille(int grille[][NB_COLONNES]);
-int colonneLibre(int grille[][NB_COLONNES], int colonne);
-int placerJeton(int grille[][NB_COLONNES], int colonne, int joueur);
-int alignementHorizontal(int grille[][NB_COLONNES], int joueur);
-int alignementVertical(int grille[][NB_COLONNES], int joueur);
-int alignementDiagonal(int grille[][NB_COLONNES], int joueur);
-int joueurAGagne(int grille[][NB_COLONNES], int joueur);
+ void jouerTour(Partie *partie, int *nombreCoups);
+void initialiserGrille(Partie *partie);
+void afficherGrille(Partie *partie);
+int colonneLibre( Partie *partie,int colonne);
+int placerJeton( Partie *partie,int colonne);
+int alignementHorizontal(Partie *partie);
+int alignementVertical(Partie *partie);
+int alignementDiagonal(Partie *partie);
+int joueurAGagne(Partie *partie);
+int grillePleine(Partie *partie);
+Partie *creerPartie(char nomJoueur1[], char nomJoueur2[]);
+void detruirePartie(Partie *partie);
+
+
+
+
+
 
 #endif
